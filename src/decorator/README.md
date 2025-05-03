@@ -16,7 +16,10 @@ Após a função da ação ser chamada eu preciso enviar para o sitema de audito
 porém não iremos implementar a auditoria no método responsável pela lógica principal da requisição
 e sim implementar um decorator, que irá decorar a função principal com a lógica da auditoria
 
-1. Criar a interface Auditoria
-2. Criar a classe core responsável pela lógica das requisições que implementa a interface Auditoria
-3. Criar a classe abstrata Decorator que implementa a interface Auditoria
-4. Criar a classe que estende o Decorator e realizar a implementação da auditoria nesta classe
+1. Criar a interface Acao
+2. Criar a classe core responsável pela lógica das requisições que implementa a interface Acao
+3. Criar a classe abstrata Decorator que implementa a interface Acao
+4. Criar a classe AuditoriaDecorator que estende o Decorator e realizar a implementação da auditoria nesta classe
+4. Criar a classe FilaDecorator que estende o Decorator e realizar a implementação de colocar o elemento na fila nesta classe
+
+Agora vamos supor que após feito a auditoria eu preciso colocar esse Elemento em uma fila de mensagens

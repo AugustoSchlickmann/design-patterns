@@ -1,6 +1,6 @@
 package decorator;
 
-public interface Auditoria {
+public interface Acao {
 
     public Elemento create();
 
