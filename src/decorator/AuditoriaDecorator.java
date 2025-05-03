@@ -2,32 +2,32 @@ package decorator;
 
 public class AuditoriaDecorator extends Decorator {
 
-    public AuditoriaDecorator(Acao auditoria) {
-        super(auditoria);
+    public AuditoriaDecorator(Acao acao) {
+        super(acao);
     }
 
     @Override
     public Elemento create() {
-       Elemento elemento = this.auditoria.create();
+       Elemento elemento = this.acao.create();
        System.out.println("Auditando a criação do " + elemento.toString() + "...");
        return elemento;
     }
 
     @Override
     public void read(Elemento elemento) {
-        this.auditoria.read(elemento);
+        this.acao.read(elemento);
         System.out.println("Auditando a leitura do " + elemento.toString() + "...");
     }
 
     @Override
     public void update(Elemento elemento) {
-        this.auditoria.update(elemento);
+        this.acao.update(elemento);
         System.out.println("Auditando a atualização do " + elemento.toString() + "...");
     }
 
     @Override
     public void delete(Elemento elemento) {
-        this.auditoria.delete(elemento);
+        this.acao.delete(elemento);
         System.out.println("Auditando a exclusão do " + elemento.toString() + "...");
     }
 

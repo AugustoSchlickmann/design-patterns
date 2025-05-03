@@ -2,10 +2,10 @@ package decorator;
 
 public abstract class Decorator implements Acao {
 
-    protected Acao auditoria;
+    protected Acao acao;
 
-    public Decorator(Acao auditoria){
-        this.auditoria = auditoria;
+    public Decorator(Acao acao){
+        this.acao = acao;
     }
 
 }
