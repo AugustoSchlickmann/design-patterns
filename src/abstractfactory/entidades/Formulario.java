@@ -20,7 +20,6 @@ public class Formulario implements Imprimivel {
         this.id = id;
     }
 
-   
     public String getNome() {
         return "Formulário: " + nome;
     }

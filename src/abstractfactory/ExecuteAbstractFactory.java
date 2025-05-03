@@ -1,9 +1,6 @@
 package abstractfactory;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.function.Function;
 
 import abstractfactory.entidades.Anexo;
 import abstractfactory.entidades.Formulario;
@@ -16,15 +13,6 @@ import abstractfactory.impl.uploadfactory.UploadFactory;
 import abstractfactory.interfaces.AnexoFactory;
 
 public class ExecuteAbstractFactory {
-    
-    private static final Map<Class<? extends Imprimivel>, Function<Anexo, ? extends Imprimivel>> relationshipMap = new HashMap<>();
-
-    static {
-        // Mapeia cada tipo relacionado ao Anexo
-        relationshipMap.put(Peca.class, Anexo::getPeca);
-        relationshipMap.put(Formulario.class, Anexo::getFormulario);
-        relationshipMap.put(Upload.class, Anexo::getUpload);
-    }
 
     public static void main(String[] args) {
         // Registra as factories no início da aplicação
@@ -37,18 +25,15 @@ public class ExecuteAbstractFactory {
         System.out.println("Número gerado: " + numero);
         Anexo anexo = getAnexo(numero);
 
-        // Descobre dinamicamente o tipo relacionado ao Anexo
-        relationshipMap.forEach((type, extractor) -> {
-            Imprimivel imprimivel = extractor.apply(anexo);
-            if (imprimivel != null) {
-                System.out.println("Anexo relacionado a: " + type.getSimpleName());
-                @SuppressWarnings("unchecked")
-                AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(imprimivel.getClass());
-                factory.getValidador().validar(imprimivel);
-                factory.getCriador().criar(imprimivel);
-                factory.getNomeador().nomear(imprimivel);
-            }
-        });
+        Imprimivel imprimivel = anexo.getRelacionado();
+
+        System.out.println("Anexo relacionado a: " + imprimivel.getClass().getSimpleName());
+        @SuppressWarnings("unchecked")
+        AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(imprimivel.getClass());
+        factory.getValidador().validar(imprimivel);
+        factory.getCriador().criar(imprimivel);
+        factory.getNomeador().nomear(imprimivel);
+      
     }
 
     public static Anexo getAnexo(int numero) {

@@ -1,5 +1,7 @@
 package abstractfactory.entidades;
 
+import abstractfactory.EnumTipoAnexo;
+
 public class Anexo {
     
     private Long id;
@@ -12,6 +14,8 @@ public class Anexo {
 
     private Upload upload;
 
+    private EnumTipoAnexo tipoAnexo;
+
     public Anexo(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
@@ -21,18 +25,21 @@ public class Anexo {
         this.id = id;
         this.descricao = descricao;
         this.peca = peca;
+        this.tipoAnexo = EnumTipoAnexo.PECA;
     }
 
     public Anexo(Long id, String descricao, Formulario formulario) {
         this.id = id;
         this.descricao = descricao;
         this.formulario = formulario;
+        this.tipoAnexo = EnumTipoAnexo.FORMULARIO;
     }
 
     public Anexo(Long id, String descricao, Upload upload) {
         this.id = id;
         this.descricao = descricao;
         this.upload = upload;
+        this.tipoAnexo = EnumTipoAnexo.UPLOAD;
     }
 
     public Long getId() {
@@ -61,6 +68,26 @@ public class Anexo {
 
     public Upload getUpload() {
         return upload;
+    }
+
+    public EnumTipoAnexo getTipoAnexo() {
+        return tipoAnexo;
+    }
+
+    public Imprimivel getRelacionado() {
+        switch (this.getTipoAnexo()) {
+            case PECA:
+                return this.peca;
+
+            case FORMULARIO:
+                return this.formulario;
+
+            case UPLOAD:
+                return this.upload;
+            
+            default:
+                throw new IllegalStateException("Tipo de anexo desconhecido: " + this.tipoAnexo);
+        }
     }
     
 }
