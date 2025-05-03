@@ -1,31 +1,11 @@
 package abstractfactory.entidades;
 
-public class Formulario implements Imprimivel {
+import abstractfactory.EnumTipoFormulario;
+
+public abstract class Formulario implements Imprimivel {
     
-    private Long id;
+    public abstract EnumTipoFormulario getTipoFormulario();
 
-    private String nome;
-
-    public Formulario(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return "Formulário: " + nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
+    public abstract String getNome();
+        
 }

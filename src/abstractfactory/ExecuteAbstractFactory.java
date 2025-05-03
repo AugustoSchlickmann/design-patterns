@@ -3,11 +3,13 @@ package abstractfactory;
 import java.util.Random;
 
 import abstractfactory.entidades.Anexo;
-import abstractfactory.entidades.Formulario;
+import abstractfactory.entidades.FormularioHtml;
+import abstractfactory.entidades.FormularioPdf;
 import abstractfactory.entidades.Imprimivel;
 import abstractfactory.entidades.Peca;
 import abstractfactory.entidades.Upload;
-import abstractfactory.impl.formulariofactory.FormularioFactory;
+import abstractfactory.impl.formularioHtmlFactory.FormularioHtmlFactory;
+import abstractfactory.impl.formularioPdfFactory.FormularioPdfFactory;
 import abstractfactory.impl.pecafactory.PecaFactory;
 import abstractfactory.impl.uploadfactory.UploadFactory;
 import abstractfactory.interfaces.AnexoFactory;
@@ -17,11 +19,12 @@ public class ExecuteAbstractFactory {
     public static void main(String[] args) {
         // Registra as factories no início da aplicação
         FactoryRegistry.getInstance().registerFactory(Peca.class, new PecaFactory());
-        FactoryRegistry.getInstance().registerFactory(Formulario.class, new FormularioFactory());
+        FactoryRegistry.getInstance().registerFactory(FormularioHtml.class, new FormularioHtmlFactory());
+        FactoryRegistry.getInstance().registerFactory(FormularioPdf.class, new FormularioPdfFactory());
         FactoryRegistry.getInstance().registerFactory(Upload.class, new UploadFactory());
 
         // Gera um número aleatório entre 1 e 3
-        int numero = new Random().nextInt(3) + 1; 
+        int numero = new Random().nextInt(4) + 1; 
         System.out.println("Número gerado: " + numero);
         Anexo anexo = getAnexo(numero);
 
@@ -42,10 +45,13 @@ public class ExecuteAbstractFactory {
                 Peca peca = new Peca(1l, "Peça 1");
                 return new Anexo(2l, "Anexo de Peça", peca);
             case 2:
-                Formulario formulario = new Formulario(1l, "Formulário 1");
-                return new Anexo(3l, "Anexo de Formulário", formulario);
+                FormularioPdf formularioPdf = new FormularioPdf(2l, "Formulário 2");
+                return new Anexo(3l, "Anexo de Formulário", formularioPdf);
+            case 3:
+                FormularioHtml formularioHtml = new FormularioHtml(3l, "Formulário 3");
+                return new Anexo(3l, "Anexo de Formulário", formularioHtml);
             default:
-                Upload upload = new Upload(1l, "Upload 1");
+                Upload upload = new Upload(4l, "Upload 4");
                 return new Anexo(4l, "Anexo de Upload", upload);
         }
     }

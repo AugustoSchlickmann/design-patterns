@@ -28,10 +28,17 @@ public class Anexo {
         this.tipoAnexo = EnumTipoAnexo.PECA;
     }
 
-    public Anexo(Long id, String descricao, Formulario formulario) {
+    public Anexo(Long id, String descricao, FormularioPdf formularioPdf) {
         this.id = id;
         this.descricao = descricao;
-        this.formulario = formulario;
+        this.formulario = formularioPdf;
+        this.tipoAnexo = EnumTipoAnexo.FORMULARIO;
+    }
+
+    public Anexo(Long id, String descricao, FormularioHtml formularioHtml) {
+        this.id = id;
+        this.descricao = descricao;
+        this.formulario = formularioHtml;
         this.tipoAnexo = EnumTipoAnexo.FORMULARIO;
     }
 
@@ -89,5 +96,6 @@ public class Anexo {
                 throw new IllegalStateException("Tipo de anexo desconhecido: " + this.tipoAnexo);
         }
     }
+
     
 }

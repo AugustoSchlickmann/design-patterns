@@ -1,11 +1,10 @@
 package abstractfactory;
 
-import abstractfactory.entidades.Anexo;
-import abstractfactory.entidades.Imprimivel;
-import abstractfactory.interfaces.AnexoFactory;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import abstractfactory.entidades.Imprimivel;
+import abstractfactory.interfaces.AnexoFactory;
 
 public class FactoryRegistry {
 
