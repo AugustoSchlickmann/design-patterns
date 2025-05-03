@@ -1,6 +1,9 @@
 package abstractfactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
 
 import abstractfactory.entidades.Anexo;
 import abstractfactory.entidades.Formulario;
@@ -14,6 +17,15 @@ import abstractfactory.interfaces.AnexoFactory;
 
 public class ExecuteAbstractFactory {
     
+    private static final Map<Class<? extends Imprimivel>, Function<Anexo, ? extends Imprimivel>> relationshipMap = new HashMap<>();
+
+    static {
+        // Mapeia cada tipo relacionado ao Anexo
+        relationshipMap.put(Peca.class, Anexo::getPeca);
+        relationshipMap.put(Formulario.class, Anexo::getFormulario);
+        relationshipMap.put(Upload.class, Anexo::getUpload);
+    }
+
     public static void main(String[] args) {
         // Registra as factories no início da aplicação
         FactoryRegistry.getInstance().registerFactory(Peca.class, new PecaFactory());
@@ -25,31 +37,18 @@ public class ExecuteAbstractFactory {
         System.out.println("Número gerado: " + numero);
         Anexo anexo = getAnexo(numero);
 
-        if (anexo.getPeca() != null) {
-            System.out.println("Anexo é uma peça.");
-            @SuppressWarnings("unchecked")
-            AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(anexo.getPeca().getClass());
-            factory.getValidador().validar(anexo.getPeca());
-            factory.getCriador().criar(anexo.getPeca());
-            factory.getNomeador().nomear(anexo.getPeca());
-
-        } else if (anexo.getFormulario() != null) {
-            System.out.println("Anexo é um formulário.");
-            @SuppressWarnings("unchecked")
-            AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(anexo.getFormulario().getClass());
-            factory.getValidador().validar(anexo.getFormulario());
-            factory.getCriador().criar(anexo.getFormulario());
-            factory.getNomeador().nomear(anexo.getFormulario());
-
-        } else {
-            System.out.println("Anexo é um upload.");
-            @SuppressWarnings("unchecked")
-            AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(anexo.getUpload().getClass());
-            factory.getValidador().validar(anexo.getUpload());
-            factory.getCriador().criar(anexo.getUpload());
-            factory.getNomeador().nomear(anexo.getUpload());
-        }
-
+        // Descobre dinamicamente o tipo relacionado ao Anexo
+        relationshipMap.forEach((type, extractor) -> {
+            Imprimivel imprimivel = extractor.apply(anexo);
+            if (imprimivel != null) {
+                System.out.println("Anexo relacionado a: " + type.getSimpleName());
+                @SuppressWarnings("unchecked")
+                AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(imprimivel.getClass());
+                factory.getValidador().validar(imprimivel);
+                factory.getCriador().criar(imprimivel);
+                factory.getNomeador().nomear(imprimivel);
+            }
+        });
     }
 
     public static Anexo getAnexo(int numero) {
