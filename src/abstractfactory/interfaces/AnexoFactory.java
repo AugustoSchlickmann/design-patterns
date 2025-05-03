@@ -1,10 +1,12 @@
 package abstractfactory.interfaces;
 
-public interface AnexoFactory {
+import abstractfactory.entidades.Anexo;
 
-    CriadorAnexo getCriador();
+public interface AnexoFactory<T extends Anexo> {
 
-    ValidadorAnexo getValidador();
+    CriadorAnexo<T> getCriador();
+
+    ValidadorAnexo<T> getValidador();
     
-    NomeadorAnexo getNomeador();
+    NomeadorAnexo<T> getNomeador();
 } 

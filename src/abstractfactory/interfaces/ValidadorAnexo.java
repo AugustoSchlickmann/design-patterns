@@ -1,6 +1,8 @@
 package abstractfactory.interfaces;
 
-public interface ValidadorAnexo {
+import abstractfactory.entidades.Anexo;
+
+public interface ValidadorAnexo<T extends Anexo> {
     
-    public void validar();
+    public void validar(T anexo);
 }

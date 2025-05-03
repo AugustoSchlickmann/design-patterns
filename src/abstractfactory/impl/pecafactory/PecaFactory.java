@@ -1,15 +1,16 @@
-package abstractfactory.pecafactory;
+package abstractfactory.impl.pecafactory;
 
+import abstractfactory.entidades.Peca;
 import abstractfactory.interfaces.AnexoFactory;
 import abstractfactory.interfaces.CriadorAnexo;
 import abstractfactory.interfaces.NomeadorAnexo;
 import abstractfactory.interfaces.ValidadorAnexo;
 
-public class PecaFactory implements AnexoFactory {
+public class PecaFactory implements AnexoFactory<Peca> {
 
-    private CriadorAnexo criador;
-    private NomeadorAnexo nomeador;
-    private ValidadorAnexo validador;
+    private CriadorAnexo<Peca> criador;
+    private NomeadorAnexo<Peca> nomeador;
+    private ValidadorAnexo<Peca> validador;
 
     public PecaFactory() {
         this.criador = new CriadorPeca();
@@ -18,17 +19,17 @@ public class PecaFactory implements AnexoFactory {
     }
 
     @Override
-    public CriadorAnexo getCriador() {
+    public CriadorAnexo<Peca> getCriador() {
         return this.criador;
     }
 
     @Override
-    public NomeadorAnexo getNomeador() {
+    public NomeadorAnexo<Peca> getNomeador() {
         return this.nomeador;
     }
 
     @Override
-    public ValidadorAnexo getValidador() {
+    public ValidadorAnexo<Peca> getValidador() {
         return this.validador;
     }
     

@@ -20,3 +20,8 @@ O que eu quero fazer é:
     3. depois criar classes concretas que estendam essa classe abstrata (ou implementam a interface)
     4. depois criar uma classe que chame os métodos de criação, validação e nomeação da classe abstrata
 
+
+# Agora chegamos no problema maior:
+o problema que eu quero resolver é quando eu não sei qual classe que estende o Anexo será retornada na função getAnexo, embora esteja hardcoded é apenas um exemplo, pois digamos que o id do anexo viria do frontend e só após a consulta ao banco de dados eu teria a classe concreta do Anexo instanciada, e após obter essa classe eu preciso criar a Factory correspondente que implemente a AbstractFactory. IMPORTANTE: deve-se evitar usar instance of e if elses
+
+    Para resolver esse problema de forma elegante e evitar o uso de instanceof ou estruturas condicionais como if-else, você pode usar o padrão Registry (Registro) combinado com o Abstract Factory. A ideia é criar um registro central que mapeie cada tipo de Anexo a sua respectiva Factory. Assim, você pode obter dinamicamente a Factory correta com base no tipo de Anexo.
