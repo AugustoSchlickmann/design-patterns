@@ -1,8 +1,8 @@
 package abstractfactory.interfaces;
 
-import abstractfactory.entidades.Anexo;
+import abstractfactory.entidades.Imprimivel;
 
-public interface AnexoFactory<T extends Anexo> {
+public interface AnexoFactory<T extends Imprimivel> {
 
     CriadorAnexo<T> getCriador();
 

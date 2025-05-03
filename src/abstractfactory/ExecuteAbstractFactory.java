@@ -4,6 +4,7 @@ import java.util.Random;
 
 import abstractfactory.entidades.Anexo;
 import abstractfactory.entidades.Formulario;
+import abstractfactory.entidades.Imprimivel;
 import abstractfactory.entidades.Peca;
 import abstractfactory.entidades.Upload;
 import abstractfactory.impl.formulariofactory.FormularioFactory;
@@ -24,24 +25,44 @@ public class ExecuteAbstractFactory {
         System.out.println("Número gerado: " + numero);
         Anexo anexo = getAnexo(numero);
 
-        // Obtém a factory correspondente com base no tipo do anexo
-        @SuppressWarnings("unchecked")
-        AnexoFactory<Anexo> factory = (AnexoFactory<Anexo>) FactoryRegistry.getInstance().getFactory(anexo.getClass());
+        if (anexo.getPeca() != null) {
+            System.out.println("Anexo é uma peça.");
+            @SuppressWarnings("unchecked")
+            AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(anexo.getPeca().getClass());
+            factory.getValidador().validar(anexo.getPeca());
+            factory.getCriador().criar(anexo.getPeca());
+            factory.getNomeador().nomear(anexo.getPeca());
 
-        // Usa a factory para criar, validar e nomear o anexo
-        factory.getValidador().validar(anexo);
-        factory.getCriador().criar(anexo);
-        factory.getNomeador().nomear(anexo);
+        } else if (anexo.getFormulario() != null) {
+            System.out.println("Anexo é um formulário.");
+            @SuppressWarnings("unchecked")
+            AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(anexo.getFormulario().getClass());
+            factory.getValidador().validar(anexo.getFormulario());
+            factory.getCriador().criar(anexo.getFormulario());
+            factory.getNomeador().nomear(anexo.getFormulario());
+
+        } else {
+            System.out.println("Anexo é um upload.");
+            @SuppressWarnings("unchecked")
+            AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(anexo.getUpload().getClass());
+            factory.getValidador().validar(anexo.getUpload());
+            factory.getCriador().criar(anexo.getUpload());
+            factory.getNomeador().nomear(anexo.getUpload());
+        }
+
     }
 
     public static Anexo getAnexo(int numero) {
         switch (numero) {
             case 1:
-                return new Peca(1l, "Peça 1");
+                Peca peca = new Peca(1l, "Peça 1");
+                return new Anexo(2l, "Anexo de Peça", peca);
             case 2:
-                return new Formulario(1l, "Formulário 1");
+                Formulario formulario = new Formulario(1l, "Formulário 1");
+                return new Anexo(3l, "Anexo de Formulário", formulario);
             default:
-                return new Upload(1l, "Upload 1");
+                Upload upload = new Upload(1l, "Upload 1");
+                return new Anexo(4l, "Anexo de Upload", upload);
         }
     }
 }

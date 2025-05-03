@@ -1,6 +1,7 @@
 package abstractfactory;
 
 import abstractfactory.entidades.Anexo;
+import abstractfactory.entidades.Imprimivel;
 import abstractfactory.interfaces.AnexoFactory;
 
 import java.util.HashMap;
@@ -13,19 +14,19 @@ public class FactoryRegistry {
 
     private static final FactoryRegistry INSTANCE = new FactoryRegistry();
 
-    private final Map<Class<? extends Anexo>, AnexoFactory<? extends Anexo>> registry = new HashMap<>();
+    private final Map<Class<? extends Imprimivel>, AnexoFactory<? extends Imprimivel>> registry = new HashMap<>();
 
     // Método para obter a instância única
     public static FactoryRegistry getInstance() {
         return INSTANCE;
     }
 
-    public <T extends Anexo> void registerFactory(Class<? extends Anexo> anexo, AnexoFactory<T> factory) {
+    public <T extends Imprimivel> void registerFactory(Class<? extends Imprimivel> anexo, AnexoFactory<T> factory) {
         registry.put(anexo, factory);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Anexo> AnexoFactory<T> getFactory(Class<T> anexoClass) {
+    public <T extends Imprimivel> AnexoFactory<T> getFactory(Class<T> anexoClass) {
         
         AnexoFactory<T> factory = (AnexoFactory<T>) registry.get(anexoClass);
 

@@ -1,6 +1,6 @@
 package abstractfactory.entidades;
 
-public class Upload extends Anexo {
+public class Upload implements Imprimivel {
     
     private Long id;
 
@@ -11,6 +11,7 @@ public class Upload extends Anexo {
         this.nome = nome;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -19,7 +20,6 @@ public class Upload extends Anexo {
         this.id = id;
     }
 
-    @Override
     public String getNome() {
         return "Upload: " + nome;
     }

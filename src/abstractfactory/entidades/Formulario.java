@@ -1,6 +1,6 @@
 package abstractfactory.entidades;
 
-public class Formulario extends Anexo {
+public class Formulario implements Imprimivel {
     
     private Long id;
 
@@ -11,6 +11,7 @@ public class Formulario extends Anexo {
         this.nome = nome;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -19,7 +20,7 @@ public class Formulario extends Anexo {
         this.id = id;
     }
 
-    @Override
+   
     public String getNome() {
         return "Formulário: " + nome;
     }
