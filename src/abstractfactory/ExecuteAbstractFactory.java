@@ -1,6 +1,9 @@
 package abstractfactory;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Function;
 
 import abstractfactory.entidades.Anexo;
 import abstractfactory.entidades.FormularioHtml;
@@ -15,6 +18,16 @@ import abstractfactory.impl.uploadfactory.UploadFactory;
 import abstractfactory.interfaces.AnexoFactory;
 
 public class ExecuteAbstractFactory {
+    
+    private static final Map<Class<? extends Imprimivel>, Function<Anexo, ? extends Imprimivel>> imprimivelMap = new LinkedHashMap<>();
+
+    static {
+        System.out.println("Populando o Map de imprimível");
+        imprimivelMap.put(Peca.class, Anexo::getPeca);
+        imprimivelMap.put(FormularioPdf.class, Anexo::getFormularioPdf);
+        imprimivelMap.put(FormularioHtml.class, Anexo::getFormularioHtml);
+        imprimivelMap.put(Upload.class, Anexo::getUpload);
+    }
 
     public static void main(String[] args) {
         // Registra as factories no início da aplicação
@@ -26,20 +39,25 @@ public class ExecuteAbstractFactory {
         // Gera um número aleatório entre 1 e 3
         int numero = new Random().nextInt(4) + 1; 
         System.out.println("Número gerado: " + numero);
-        Anexo anexo = getAnexo(numero);
+        Anexo anexo = criaAnexo(numero);
 
-        Imprimivel imprimivel = anexo.getRelacionado();
+         // Descobre dinamicamente o tipo relacionado ao Anexo
+         imprimivelMap.forEach((type, extractor) -> {
+            System.out.println("Verificando o mapa de imprimível para -> " + type.getSimpleName());
+            Imprimivel imprimivel = extractor.apply(anexo);
 
-        System.out.println("Anexo relacionado a: " + imprimivel.getClass().getSimpleName());
-        @SuppressWarnings("unchecked")
-        AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(imprimivel.getClass());
-        factory.getValidador().validar(imprimivel);
-        factory.getCriador().criar(imprimivel);
-        factory.getNomeador().nomear(imprimivel);
-      
+            if (imprimivel != null) {
+                System.out.println("Anexo relacionado a: " + type.getSimpleName());
+                @SuppressWarnings("unchecked")
+                AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(imprimivel.getClass());
+                factory.getValidador().validar(imprimivel);
+                factory.getCriador().criar(imprimivel);
+                factory.getNomeador().nomear(imprimivel);
+            }
+        });
     }
 
-    public static Anexo getAnexo(int numero) {
+    public static Anexo criaAnexo(int numero) {
         switch (numero) {
             case 1:
                 Peca peca = new Peca(1l, "Peça 1");

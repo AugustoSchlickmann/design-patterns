@@ -10,7 +10,9 @@ public class Anexo {
 
     private Peca peca;
 
-    private Formulario formulario;
+    private FormularioPdf formularioPdf;
+
+    private FormularioHtml formularioHtml;
 
     private Upload upload;
 
@@ -31,14 +33,14 @@ public class Anexo {
     public Anexo(Long id, String descricao, FormularioPdf formularioPdf) {
         this.id = id;
         this.descricao = descricao;
-        this.formulario = formularioPdf;
+        this.formularioPdf = formularioPdf;
         this.tipoAnexo = EnumTipoAnexo.FORMULARIO;
     }
 
     public Anexo(Long id, String descricao, FormularioHtml formularioHtml) {
         this.id = id;
         this.descricao = descricao;
-        this.formulario = formularioHtml;
+        this.formularioHtml = formularioHtml;
         this.tipoAnexo = EnumTipoAnexo.FORMULARIO;
     }
 
@@ -69,8 +71,12 @@ public class Anexo {
         return peca;
     }
 
-    public Formulario getFormulario() {
-        return formulario;
+    public FormularioPdf getFormularioPdf() {
+        return formularioPdf;
+    }
+
+    public FormularioHtml getFormularioHtml() {
+        return formularioHtml;
     }
 
     public Upload getUpload() {
@@ -80,22 +86,5 @@ public class Anexo {
     public EnumTipoAnexo getTipoAnexo() {
         return tipoAnexo;
     }
-
-    public Imprimivel getRelacionado() {
-        switch (this.getTipoAnexo()) {
-            case PECA:
-                return this.peca;
-
-            case FORMULARIO:
-                return this.formulario;
-
-            case UPLOAD:
-                return this.upload;
-            
-            default:
-                throw new IllegalStateException("Tipo de anexo desconhecido: " + this.tipoAnexo);
-        }
-    }
-
     
 }

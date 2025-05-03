@@ -2,7 +2,7 @@ package abstractfactory.entidades;
 
 import abstractfactory.EnumTipoFormulario;
 
-public class FormularioPdf extends Formulario {
+public class FormularioPdf implements Imprimivel {
     
     private Long id;
 
@@ -25,7 +25,6 @@ public class FormularioPdf extends Formulario {
         this.id = id;
     }
     
-    @Override
     public String getNome() {
         return "Formulário PDF: " + nome;
     }
@@ -34,7 +33,6 @@ public class FormularioPdf extends Formulario {
         this.nome = nome;
     }
 
-    @Override
     public EnumTipoFormulario getTipoFormulario() {
         return tipoFormulario;
     }
