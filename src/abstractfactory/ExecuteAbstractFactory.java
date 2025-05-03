@@ -41,20 +41,28 @@ public class ExecuteAbstractFactory {
         System.out.println("Número gerado: " + numero);
         Anexo anexo = criaAnexo(numero);
 
-         // Descobre dinamicamente o tipo relacionado ao Anexo
-         imprimivelMap.forEach((type, extractor) -> {
-            System.out.println("Verificando o mapa de imprimível para -> " + type.getSimpleName());
-            Imprimivel imprimivel = extractor.apply(anexo);
+        // Obtém o primeiro imprimível não nulo
+        Imprimivel imprimivel = findFirstImprimivelNonNull(anexo);
+        System.out.println("Anexo relacionado a: " + imprimivel.getClass().getSimpleName());
 
+        @SuppressWarnings("unchecked")
+        AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(imprimivel.getClass());
+        factory.getValidador().validar(imprimivel);
+        factory.getCriador().criar(imprimivel);
+        factory.getNomeador().nomear(imprimivel);
+    }
+
+    private static Imprimivel findFirstImprimivelNonNull(Anexo anexo) {
+        for (Map.Entry<Class<? extends Imprimivel>, Function<Anexo, ? extends Imprimivel>> entry : imprimivelMap.entrySet()) {
+            System.out.println("Verificando o mapa de imprimível para -> " + entry.getKey());
+            
+            Imprimivel imprimivel = entry.getValue().apply(anexo);
             if (imprimivel != null) {
-                System.out.println("Anexo relacionado a: " + type.getSimpleName());
-                @SuppressWarnings("unchecked")
-                AnexoFactory<Imprimivel> factory = (AnexoFactory<Imprimivel>) FactoryRegistry.getInstance().getFactory(imprimivel.getClass());
-                factory.getValidador().validar(imprimivel);
-                factory.getCriador().criar(imprimivel);
-                factory.getNomeador().nomear(imprimivel);
+                return imprimivel;
             }
-        });
+        }
+
+        throw new IllegalArgumentException("Nenhum imprimível relacionado ao Anexo encontrado.");
     }
 
     public static Anexo criaAnexo(int numero) {
