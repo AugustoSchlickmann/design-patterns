@@ -1,6 +1,7 @@
 package prototype;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class ExecutePrototype {
 
@@ -32,6 +33,7 @@ public class ExecutePrototype {
         Item item2 = new Item("Produto B", BigDecimal.valueOf(20.00), 2);
 
         Encomenda encomenda = new Encomenda(System.currentTimeMillis(), System.currentTimeMillis() + UM_DIA_LONG, cliente);
+        System.err.println("ID Imutável: " + encomenda.getId());
         encomenda.getItens().add(item1);
         encomenda.getItens().add(item2);
 
@@ -57,6 +59,19 @@ public class ExecutePrototype {
 
         encomenda.getCliente().setTelefone("+55 987654321"); // Irá modificar em todos os históricos também
 
+        Encomenda encomendaClone3 = encomenda.clone();
+        encomenda.getHistorico().add(encomendaClone3);
+
+        encomenda.getItens().clear();
+
         System.out.println(encomenda.imprimirComHistorico());
+
+        System.out.println(Objects.equals(encomendaClone, encomendaClone2)); // false
+        System.out.println(Objects.equals(encomendaClone, encomendaClone3)); // false
+        System.out.println(Objects.equals(encomendaClone2, encomendaClone3)); // false
+
+        System.out.println(encomendaClone.equals(encomendaClone2)); // false
+        System.out.println(encomendaClone.equals(encomendaClone3)); // false
+        System.out.println(encomendaClone2.equals(encomendaClone3)); // false
     }
 }

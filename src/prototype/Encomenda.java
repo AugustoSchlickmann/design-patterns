@@ -30,6 +30,7 @@ public class Encomenda implements HistoricoPrototype<Encomenda> {
 
     public Encomenda(Encomenda encomenda) {
         // ID é único, não deve ser clonado
+        this.id = UUID.randomUUID();
         
         this.dataCriacao = encomenda.dataCriacao;
         this.dataEntrega = encomenda.dataEntrega;
